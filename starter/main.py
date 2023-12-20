@@ -12,7 +12,7 @@ from typing import Literal
 import pickle
 
 
-PATH_SAVE = 'starter/model/'
+PATH_SAVE = './model/'
 
 app = FastAPI(
     title="RandomForest API",
