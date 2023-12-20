@@ -106,20 +106,18 @@ def test_model_inference_class1(sample_input):
 
 
 
-def test_incomplete_inference_query():
+def test_incomplete():
     """
     Test for incomplete model inference query.
-
-    Checks if the response status code is 422 (Unprocessable Entity) and if the 'prediction' key is not present in the response.
     """
     data = {
-        "occupation": "Exec-managerial",
+        "occupation": "Prof-specialty",
         "race": "Black",
-        "capital_gain": 5178,
-        "education": "9th"}
+        "capital_gain": 0,
+        "education": "HS-grad"}
     r = client.post("/predict", json=data)
     assert r.status_code == 422
     assert 'prediction' not in r.json()["detail"][0].keys()
 
     logging.warning(
-        f"The sample has {len(data)} features. Must be 14 features")
+        f"Must be 14 features")
