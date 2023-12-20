@@ -15,7 +15,7 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)-15s %(message)s")
 
 def api_test(url, data_input):
     """
-    Tests the deployed App
+    Tests the deployed Application
 
     Parameters:
         - url (str): URL of the API endpoint.
@@ -30,7 +30,7 @@ def api_test(url, data_input):
         resp = requests.post(url, json=data_input)
         # check if the request was successful
         resp.raise_for_status()
-        
+
         # elapsed time
         elapsed_time = time.time() - start_time
 
