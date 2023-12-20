@@ -1,5 +1,6 @@
 from sklearn.metrics import fbeta_score, precision_score, recall_score
 from sklearn.ensemble import RandomForestClassifier as RFC
+import pandas as pd
 
 
 # Optional: implement hyperparameter tuning.
@@ -63,3 +64,52 @@ def inference(model, X):
     # use trained random forest model to generate predictions
     preds = model.predict(X)
     return preds
+
+def compute_slices(df, feature, y, preds):
+    """
+    Computes performance metrics on slices for a given categorical feature.
+
+    Parameters:
+    df : pandas.DataFrame
+        Test dataframe pre-processed with features, including the categorical feature for slicing.
+        The dataframe is saved into a text file, appending each time for each feature.
+    feature : str
+        Feature on which to perform the slices.
+    y : np.array
+        Corresponding known labels, binarized.
+    preds : np.array
+        Predicted labels, binarized.
+
+    Returns:
+    pandas.DataFrame
+        Dataframe with columns:
+            - feature value: value of the categorical feature
+            - n_samples: number of data samples in the slice
+            - precision: precision score
+            - recall: recall score
+            - fbeta: fbeta score
+    """
+
+    slice_options = df[feature].unique()
+    performance_data = []
+    save_path = './slice_output.txt'
+
+    for option in slice_options:
+        slice_mask = df[feature] == option
+        slice_y = y[slice_mask]
+        slice_preds = preds[slice_mask]
+
+        precision = precision_score(slice_y, slice_preds)
+        recall = recall_score(slice_y, slice_preds)
+        fbeta = fbeta_score(slice_y, slice_preds, beta=1)
+
+        performance_data.append({
+            'feature value': option,
+            'n_samples': len(slice_y),
+            'precision': precision,
+            'recall': recall,
+            'fbeta': fbeta
+        })
+
+    performance_df = pd.DataFrame(performance_data)
+    performance_df.to_csv(save_path, mode='a', index=False)
