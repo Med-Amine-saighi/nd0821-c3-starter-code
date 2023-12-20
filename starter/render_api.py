@@ -15,60 +15,57 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)-15s %(message)s")
 
 def api_test(url, data_input):
     """
-    Test the deployed API by sending a POST request and checking the response.
+    Tests the deployed App
 
     Parameters:
-        - url (str): The URL of the API endpoint.
+        - url (str): URL of the API endpoint.
         - data_input (dict): The input data to be sent with the POST request.
-
     Returns:
         None
-
     Raises:
-    - requests.exceptions.RequestException: If the request fails.
-
+        - requests.exceptions.RequestException: If the request fails.
     """
     try:
         start_time = time.time()
         resp = requests.post(url, json=data_input)
-
         # check if the request was successful
         resp.raise_for_status()
-
+        
+        # elapsed time
         elapsed_time = time.time() - start_time
 
-        # Log the response content for better understanding
+        # Log responses
         logging.info("Response Content:")
         logging.info(resp.text)
         logging.info("Prediction")
         logging.info(resp.json()[0]["prediction"])
-
         logging.info("Testing Render app")
         logging.info(f"Status code: {resp.status_code}")
         logging.info(f"Time taken: {elapsed_time:.4f} seconds")
 
     except requests.exceptions.RequestException as e:
-        logging.error(f"Request failed: {e}")
+        logging.error(f"Request failed: {e}")   
 
 
 if __name__ == "__main__":
-    # Update the URL to your specific API endpoint
-    api_url = "https://udacity-app-nbh.onrender.com/predict"
+    # URL endpoint
+    api_url = "https://udacity-app.onrender.com/predict"
 
+    # input data sample
     data_input = {
-        "age": 53,
+        "age": 31,
         "workclass": "Private",
-        "fnlgt": 169846,
-        "education": "HS-grad",
-        "education_num": 9,
-        "marital_status": "Married-civ-spouse",
-        "occupation": "Adm-clerical",
-        "relationship": "Wife",
+        "fnlgt": 45781,
+        "education": "Masters",
+        "education_num": 14,
+        "marital_status": "Never-married",
+        "occupation": "Prof-specialty",
+        "relationship": "Not-in-family",
         "race": "White",
         "sex": "Female",
-        "capital_gain": 0,
+        "capital_gain": 14084,
         "capital_loss": 0,
-        "hours_per_week": 40,
+        "hours_per_week": 50,
         "native_country": "United-States"
     }
 
