@@ -146,3 +146,27 @@ def test_metrics(model, get_train_test_split):
     except AssertionError:
         logging.error("Can't calculate the metrics !!")
         raise AssertionError
+    
+def test_performance_slices(
+        get_data, get_train_test_split, get_features, model):
+    """
+    Args:
+    - get_data (pd.DataFrame): The dataset that has been loaded.
+    - get_train_test_split (tuple): A tuple containing training and testing data.
+    - get_features (list): A list of categorical features.
+    - model (object): An instance of a trained machine learning model.
+    
+    Raises:
+    - AssertionError: Raised if the model fails to compute slices.
+    """
+    try:
+        _, test = train_test_split(get_data, test_size=0.20)
+        _, X_test, _, y_test = get_train_test_split
+        preds = inference(model, X_test)
+        for feature in get_features:
+            compute_slices(test, feature, y_test, preds)
+        # Check that the file is created
+        assert os.path.exists('./slice_output.txt')
+    except AssertionError:
+        logging.error("Model can't compute slices")
+        raise AssertionError

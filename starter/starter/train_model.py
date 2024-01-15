@@ -3,7 +3,7 @@ import pickle
 import pandas as pd
 from ml.data import process_data
 from sklearn.model_selection import train_test_split
-from ml.model import train_model, compute_model_metrics, inference
+from ml.model import train_model, compute_model_metrics, inference, compute_slices
 
 # Add the necessary imports for the starter code.
 data = pd.read_csv('starter/data/census.csv')
@@ -40,3 +40,7 @@ pickle.dump(model, open(f'starter/model/trained_model.pkl', "wb"))
 # assess the performance of the model
 predictions = inference(model, X_test)
 precision, recall, fbeta = compute_model_metrics(y_test, predictions)
+print(f'precision, recall, fbeta : {precision, recall, fbeta}')
+
+for feat in cat_features:
+    compute_slices(test, feat, y_test, predictions)

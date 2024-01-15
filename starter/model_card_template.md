@@ -11,7 +11,11 @@ The UCI Machine Learning Repository provided the training data. The information 
 ## Evaluation Data
 The main dataset was separated into train and test with an 80/20 split for the evaulation data. The model's performance is evaluated using the test data. In terms of data processing, we employed categorical encoding with onehot encoding and binazier for the target variable.
 ## Metrics
-_Please include the metrics used and your model's performance on those metrics._
+```
+Precision: 0.9482097186700768
+Recall: 0.9297805642633229
+F-beta: 0.9389047166824945
+```
 
 ## Ethical Considerations
 Because the training characteristics contained information like as ethnicity and gender, model performance should be regarded and analysed with caution. This could result in skewed predictions.
